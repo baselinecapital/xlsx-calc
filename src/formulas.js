@@ -151,7 +151,8 @@ function sumproduct() {
         return true;
     };
 
-    if (!arguments || arguments.length === 0) {
+    if (!arguments || arguments.length === 0 || !arguments[0]) {
+
         throw Error('#VALUE!');
     }
     if (!consistentSizeRanges(arguments)) {
