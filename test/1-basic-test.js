@@ -1022,6 +1022,20 @@ describe('XLSX_CALC', function() {
             /"Sheet1"!A1.*Function XPTO not found/
         );
     });
+    it('resolves function names case-insensitively', function() {
+        workbook.Sheets.Sheet1.A1.f = 'sum(1,2)+Min(5,3)+MAX(1,2)';
+        XLSX_CALC(workbook);
+        assert.equal(workbook.Sheets.Sheet1.A1.v, 8);
+    });
+    it('throws a readable error for an unbalanced closing parenthesis', function() {
+        workbook.Sheets.Sheet1.A1.f = '1+2)-3';
+        assert.throws(
+            function() {
+                XLSX_CALC(workbook);
+            },
+            /"Sheet1"!A1.*Unbalanced parenthesis/
+        );
+    });
     it('handles error values', function () {
         workbook.Sheets.Sheet1.A1.f = '1/0';
         XLSX_CALC(workbook);
