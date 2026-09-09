@@ -53,10 +53,14 @@ module.exports = function expression_builder(formula, opts) {
         buffer += char;
     }
 
+    function lookup_fn(table, name) {
+        return table[name] || table[name.toUpperCase()];
+    }
+
     function ini_parentheses() {
         var o, trim_buffer = buffer.trim(),
-            special = xlsx_Fx[trim_buffer];
-        var special_raw = xlsx_raw_Fx[trim_buffer];
+            special = lookup_fn(xlsx_Fx, trim_buffer);
+        var special_raw = lookup_fn(xlsx_raw_Fx, trim_buffer);
         if (special_raw) {
             special = new UserRawFnExecutor(special_raw, formula);
         }
@@ -77,6 +81,9 @@ module.exports = function expression_builder(formula, opts) {
     }
 
     function end_parentheses() {
+        if (fn_stack.length < 2) {
+            throw new Error('"' + formula.sheet_name + '"!' + formula.name + ': Unbalanced parenthesis');
+        }
         var v, stack = fn_stack.pop();
         exp_obj = stack.exp;
         exp_obj.push(buffer);

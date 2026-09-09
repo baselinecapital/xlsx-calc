@@ -17,6 +17,14 @@ describe('formulajs integration', function() {
             XLSX_CALC(workbook);
             assert.strictEqual(workbook.Sheets.Sheet1.A5.v, 12);
         });
+        it('resolves imported functions case-insensitively', function() {
+            XLSX_CALC.import_functions(formulajs);
+            var workbook = {Sheets: {Sheet1: {}}};
+            workbook.Sheets.Sheet1.A1 = {f: 'Date(2026,1,1)'};
+            workbook.Sheets.Sheet1.A2 = {f: 'DATE(2026,1,1)'};
+            XLSX_CALC(workbook);
+            assert.deepStrictEqual(workbook.Sheets.Sheet1.A1.v, workbook.Sheets.Sheet1.A2.v);
+        });
         it('imports the functions with dot names like BETA.DIST', function() {
             XLSX_CALC.import_functions(formulajs);
             var workbook = {Sheets: {Sheet1: {}}};
