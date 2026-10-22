@@ -19,7 +19,7 @@
     "pre-commit": "^2.0.0",
     "webpack": "^5.112.0",
     "webpack-cli": "^7.2.3",
-    "xlsx": "github:baselinecapital/sheetjs#d2f2e179636be22f3af3c306df7783ea10a2c7e3"
+    "xlsx": "https://codeload.github.com/baselinecapital/sheetjs/tar.gz/d2f2e179636be22f3af3c306df7783ea10a2c7e3"
   },
   "tonicExampleFilename": "example_tonic.js",
   "pre-commit": [
